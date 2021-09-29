@@ -1,4 +1,7 @@
 import {useState} from 'react'
+import { connect } from 'react-redux'
+
+
 function Post(props) {
 
 
@@ -22,8 +25,17 @@ function Post(props) {
                 'Content-Type': 'application/json'
             }, 
             body: JSON.stringify(blog)
+    }).then(response => response.json()).then(result=>{
+       //fetch a blog
+      fetch('http://localhost:3080/blog')
+       .then(response => response.json())
+       .then(blogs => {
+          props.onBlogsLoaded(blogs)
+       })
+
     })
-    }
+
+   }
 
     return (
         <div>
@@ -58,11 +70,17 @@ function Post(props) {
           />
         </div>
 
-            <button onClick = {handleBlogPost} >Post</button>
+            <button onClick = {handleBlogPost}>Post</button>
       </form>
             
         </div>
     )
 }
 
-export default Post
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onBlogsLoaded:(blogs) => dispatch({type:'BLOGS_LOADED',payload:blogs})
+  }
+}
+
+export default connect (null,mapDispatchToProps) (Post)

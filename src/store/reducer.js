@@ -4,10 +4,16 @@ const initialState ={
 }
 
 const reducer = (state = initialState,action) => {
-    return  (state
+    switch(action.type) {
+        case 'BLOGS_LOADED':
+            return {
+                ...state,
+                blogs:action.payload
+            }
+            default:
+             return state
+    }
         
-            
-    )
 
 }
 
