@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import  Post from './Post'
 import {connect} from 'react-redux'
+import * as actionCreators from './store/actionCreators'
+
   
 function App(props) {
 
@@ -8,12 +10,7 @@ function App(props) {
 
   useEffect(()=>{
 
-       fetch("http://localhost:3080/blog")
-       .then(response =>response.json())
-       .then(blogs=>{
-           //setBlogs(blogs)
-           props.onBlogsLoaded(blogs)
-       })
+        props.onBlogsLoaded()
   },[])
 
    
@@ -33,9 +30,10 @@ function App(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch) => {
   return {
-    onBlogsLoaded:(blogs) => dispatch({type:'BLOGS_LOADED',payload:blogs})
+    onBlogsLoaded:() => dispatch(actionCreators.fetchBlogs())
+    
   }
 }
 
