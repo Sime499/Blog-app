@@ -1,5 +1,7 @@
 import {useState} from 'react'
 import { connect } from 'react-redux'
+import * as actionCreators from './store/actionCreators'
+
 
 
 function Post(props) {
@@ -27,11 +29,8 @@ function Post(props) {
             body: JSON.stringify(blog)
     }).then(response => response.json()).then(result=>{
        //fetch a blog
-      fetch('http://localhost:3080/blog')
-       .then(response => response.json())
-       .then(blogs => {
-          props.onBlogsLoaded(blogs)
-       })
+             props.onBlogsLoaded()
+
 
     })
 
@@ -79,7 +78,8 @@ function Post(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onBlogsLoaded:(blogs) => dispatch({type:'BLOGS_LOADED',payload:blogs})
+    onBlogsLoaded:() => dispatch(actionCreators.fetchBlogs())
+    
   }
 }
 
